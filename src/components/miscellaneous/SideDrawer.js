@@ -31,6 +31,7 @@ import { Effect } from "react-notification-badge";
 import { getSender } from "../../config/ChatLogics";
 import UserListItem from "../userAvatar/UserListItem";
 import { ChatState } from "../../Context/ChatProvider";
+import UserBadgeItem from "../userAvatar/UserBadgeItem";
 
 function SideDrawer() {
   const [search, setSearch] = useState("");
@@ -77,7 +78,10 @@ function SideDrawer() {
         },
       };
 
-      const { data } = await axios.get(`https://chatappnodeheroku.herokuapp.com/api/user?search=${search}`, config);
+      const { data } = await axios.get(
+        `https://chatappnodeheroku.herokuapp.com/api/user?search=${search}`,
+        config
+      );
 
       setLoading(false);
       setSearchResult(data);
@@ -93,6 +97,7 @@ function SideDrawer() {
     }
   };
 
+  
   const accessChat = async (userId) => {
     console.log(userId);
 
@@ -104,9 +109,14 @@ function SideDrawer() {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post(`https://chatappnodeheroku.herokuapp.com/api/chat`, { userId }, config);
+      const { data } = await axios.post(
+        `https://chatappnodeheroku.herokuapp.com/api/chat`,
+        { userId },
+        config
+      );
 
-      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      if (!chats.find((c) => c._id === data._id))
+       setChats([data, ...chats]);
       setSelectedChat(data);
       setLoadingChat(false);
       onClose();
@@ -215,6 +225,7 @@ function SideDrawer() {
                 />
               ))
             )}
+
             {loadingChat && <Spinner ml="auto" d="flex" />}
           </DrawerBody>
         </DrawerContent>
